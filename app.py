@@ -1,7 +1,5 @@
 import os
 import re
-import time
-from threading import Thread
 
 from revChatGPT.V3 import Chatbot
 from slack_bolt import App
@@ -53,12 +51,5 @@ def event_msg(event, say):
     say(send)
 
 
-def chatgpt_refresh():
-    while True:
-        time.sleep(60)
-
-
 if __name__ == "__main__":
-    thread = Thread(target=chatgpt_refresh)
-    thread.start()
     app.start(4000)  # POST http://localhost:4000/slack/events
