@@ -17,9 +17,15 @@ chatbot = Chatbot(**ChatGPTConfig)
 # Listen for an event from the Events API
 @app.event("app_mention")
 def event_test(event, say):
+    user = event['user']
+    if event['text'] == "reset_chatgpt":
+        chatbot.reset(convo_id=user)
+        say("user:" + user + " reset chatgpt context done")
+        return
+
     prompt = re.sub('(?:\s)<@[^, ]*|(?:^)<@[^, ]*', '', event['text'])
     try:
-        response = chatbot.ask(prompt)
+        response = chatbot.ask(prompt=prompt, convo_id=user)
         user = event['user']
         user = f"<@{user}> you asked:"
         asked = ['>', prompt]
@@ -39,9 +45,15 @@ def event_test(event, say):
 
 @app.event("message")
 def event_msg(event, say):
+    user = event['user']
+    if event['text'] == "reset_chatgpt":
+        chatbot.reset(convo_id=user)
+        say("user:" + user + " reset chatgpt context done")
+        return
+
     prompt = re.sub('(?:\s)<@[^, ]*|(?:^)<@[^, ]*', '', event['text'])
     try:
-        response = chatbot.ask(prompt)
+        response = chatbot.ask(prompt=prompt, convo_id=user)
         send = response
     except Exception as e:
         print(e)
