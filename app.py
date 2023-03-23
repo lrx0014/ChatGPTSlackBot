@@ -18,7 +18,7 @@ chatbot = Chatbot(**ChatGPTConfig)
 @app.event("app_mention")
 def event_test(event, say):
     user = event['user']
-    if event['text'] == "reset_chatgpt":
+    if "reset_chatgpt" in event['text']:
         chatbot.reset(convo_id=user)
         say("user:" + user + " reset chatgpt context done")
         return
