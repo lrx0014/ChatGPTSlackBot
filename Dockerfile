@@ -5,6 +5,7 @@ RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 COPY app.py /app
 COPY requirements.txt /app
+RUN mkdir /app/log
 
 RUN pip install -r requirements.txt
 

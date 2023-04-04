@@ -10,3 +10,5 @@ services:
       - ./variables.env
     ports:
       - 4000:4000
+    volumes:
+      - ./log:/app/log

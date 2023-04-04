@@ -1,5 +1,7 @@
 import os
 import re
+import logging
+from logging.handlers import TimedRotatingFileHandler
 
 from revChatGPT.V3 import Chatbot
 from slack_bolt import App
@@ -12,6 +14,17 @@ if os.getenv("OPENAI_ENGINE"):
 
 app = App()
 chatbot = Chatbot(**ChatGPTConfig)
+
+
+# 配置TimedRotatingFileHandler
+handler = TimedRotatingFileHandler('log/requests.log', when='midnight', interval=1, backupCount=180, encoding='utf-8')
+handler.setLevel(logging.INFO)
+handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s:%(message)s'))
+
+# 配置日志记录器
+logger = logging.getLogger('requests')
+logger.setLevel(logging.INFO)
+logger.addHandler(handler)
 
 
 # Listen for an event from the Events API
@@ -52,6 +65,7 @@ def event_msg(event, say):
         return
 
     prompt = re.sub('(?:\s)<@[^, ]*|(?:^)<@[^, ]*', '', event['text'])
+    logger.info("user:"+user+" > " + prompt)
     try:
         response = chatbot.ask(prompt=prompt, convo_id=user)
         send = response
