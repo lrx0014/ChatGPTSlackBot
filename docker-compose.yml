@@ -6,9 +6,8 @@ services:
     image: lrx0014/slack-chatbot:latest
     restart: always
     container_name: slack-chatbot
-    env_file:
-      - ./variables.env
     ports:
       - 4000:4000
     volumes:
       - ./log:/app/log
+      - ./config.json:/app/config.json
