@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import logging
@@ -6,11 +7,14 @@ from logging.handlers import TimedRotatingFileHandler
 from revChatGPT.V3 import Chatbot
 from slack_bolt import App
 
+with open('config.json', 'r', encoding='utf-8') as f:
+    config = json.load(f)
+
 ChatGPTConfig = {
-    "api_key": os.getenv("OPENAI_API_KEY"),
+    "api_key": config['openai_api_key']
 }
-if os.getenv("OPENAI_ENGINE"):
-    ChatGPTConfig["engine"] = os.getenv("OPENAI_ENGINE")
+if config["openai_engine"] != "":
+    ChatGPTConfig["engine"] = config['openai_engine']
 
 app = App()
 chatbot = Chatbot(**ChatGPTConfig)
