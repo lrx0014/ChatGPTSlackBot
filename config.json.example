@@ -1,4 +1,6 @@
 {
   "openai_api_key": "",
-  "openai_engine": ""
+  "openai_engine": "",
+  "slack_signing_secret": "",
+  "slack_token": ""
 }

@@ -16,7 +16,7 @@ ChatGPTConfig = {
 if config["openai_engine"] != "":
     ChatGPTConfig["engine"] = config['openai_engine']
 
-app = App()
+app = App(token=config['slack_token'], signing_secret=config['slack_signing_secret'])
 chatbot = Chatbot(**ChatGPTConfig)
 
 
