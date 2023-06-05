@@ -19,6 +19,10 @@ if config["openai_engine"] != "":
 app = App(token=config['slack_token'], signing_secret=config['slack_signing_secret'])
 chatbot = Chatbot(**ChatGPTConfig)
 
+port = 4000
+if config['port'] != "":
+    port = config['port']
+
 
 # 配置TimedRotatingFileHandler
 handler = TimedRotatingFileHandler('log/requests.log', when='midnight', interval=1, backupCount=180, encoding='utf-8')
@@ -82,4 +86,4 @@ def event_msg(event, say):
 
 
 if __name__ == "__main__":
-    app.start(4000)  # POST http://localhost:4000/slack/events
+    app.start(port)  # POST http://localhost:port/slack/events
